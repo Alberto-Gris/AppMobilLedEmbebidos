@@ -11,78 +11,49 @@ export default function TabTwoScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}>
+      headerImage={
+        <Image
+        source={require('@/assets/images/pico.png')}
+        style={styles.headerImage}
+        />
+      }>
+
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
+        <ThemedText type='title'>Pasos a Seguir</ThemedText>
       </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
+
+      <ThemedText>Es esta pagina encontrara una serie de pasos a seguir para conectarse y hacer funcionar la tarjeta pico w.</ThemedText>
+      <Collapsible title="Conectarse a la misma red">
         <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
+          Usted debe de conectarse a la misma red en donde esta conectada y funcionando la tarjeta
         </ThemedText>
         <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
+          Estos ajustes de red los puede encontrar en {''}<ThemedText type='defaultSemiBold'>Configuracion/Wi-Fi</ThemedText> de su telefono mobil.
         </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
+        <Image source={require('@/assets/images/wifi.jpeg')} style={{ alignSelf: 'center' }} />
       </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
+      <Collapsible title="Ingresar la ip">
         <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
+          Debera de ingresar la ip dada por su tarjeta, en la seccion de {' '}
+          <ThemedText type="defaultSemiBold">Conexion</ThemedText> de la pantalla principal de esta aplicacion. Despues de esto debera de presionar 
         </ThemedText>
         <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
       </Collapsible>
-      <Collapsible title="Custom fonts">
+      <Collapsible title="Utilizar el menu rgb">
         <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
+          Una vez presionado el boton conectar, podra escoger mediante las tres barras rgb el color que desea poner en la tira de luz led rgb 
         </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
+        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
       </Collapsible>
-      <Collapsible title="Light and dark mode components">
+      <Collapsible title="Desarrollo">
         <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
+          Esta aplicacion fue creada con <ThemedText type="defaultSemiBold">React-Native</ThemedText> como principal framework de desarrollo movil.
+          Ademas de que se ocupo la herramienta de Expo para el desarrollo de la App, esta herramienta nos ayuda a tener mas herramienta y librerias disponibles
+          para el desarrollo de apps mobiles en diferentes sistemas operativos(ios,andorid).
         </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
+        <ExternalLink href="https://docs.expo.dev/get-started/set-up-your-environment/">
+          <ThemedText type="link">Expo</ThemedText>
         </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText> library
-          to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
       </Collapsible>
     </ParallaxScrollView>
   );
