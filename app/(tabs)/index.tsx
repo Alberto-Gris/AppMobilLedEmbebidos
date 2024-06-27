@@ -10,15 +10,74 @@ export default function HomeScreen() {
   const [text, onChangeText] = React.useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const [ sliderRed,setSliderRed ] = useState<number>();
-  const [ sliderGreen,setSliderGreen ] = useState<number>();
-  const [ sliderBlue,setSliderBlue ] = useState<number>();
+  const [ sliderRed,setSliderRed ] = useState<number>(0);
+  const [ sliderGreen,setSliderGreen ] = useState<number>(0);
+  const [ sliderBlue,setSliderBlue ] = useState<number>(0);
 
-  const buttonColor = `rgb(${sliderRed}, ${sliderGreen}, ${sliderBlue})`;
+  const buttonColor = `rgb(${((sliderRed+1)/256)-1}, ${((sliderGreen+1)/256)-1}, ${((sliderBlue+1)/256)-1})`;
+  const url = `http://` + text;
+  
+  let estatus:String = '';
 
-  function saveConection() {
-    console.log("{Envio :",text,"}");
+
+  async function saveConection() {
+    
+    estatus = await getConnection();
+    console.log(estatus);
+    if(estatus == 'raspberry ok'){
+      setIsLoading(true);
+    }else{
+      setIsLoading(false);
+    }
   }
+
+  const getConnection = async () => {
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+      return json.status
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const sendColor = async (op:number) => {
+    switch(op) {
+      case 1:
+        fetch(url+'/r/'+`${sliderRed.toFixed(0)}`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'},
+          body: JSON.stringify({color: sliderRed}),
+        });
+        break;
+      case 2:
+        fetch(url+'/g/'+`${sliderGreen.toFixed(0)}`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'},
+          body: JSON.stringify({color: sliderRed}),
+        });
+        break;
+      case 3:
+        fetch(url+'/b/'+`${sliderBlue.toFixed(0)}`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            color: sliderRed}),
+        });
+        break;
+      default:
+        console.log("Invalid type");
+    }
+  }
+
+
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -29,7 +88,8 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Tira de LED's RGB controlable</ThemedText>
+        <ThemedText type="title">Tira de LED's RGB</ThemedText>
+        
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Conexion</ThemedText>
@@ -44,36 +104,53 @@ export default function HomeScreen() {
             <Text style={styles.text}>Conectar</Text>
         </Pressable>
         
+        {(() => {
+              if (isLoading){
+                  return (
+                    <Pressable style={[styles.buttonM,{ backgroundColor: 'green' }]}>
+                      <Text style={styles.text}>Conectado</Text>
+                    </Pressable>
+                  )
+              }else{
+                return (
+                  <Pressable style={[styles.buttonM,{ backgroundColor: 'red' }]}>
+                    <Text style={styles.text}>Desconectado</Text>
+                  </Pressable>
+                )
+              }
+            })()}
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Control RGB</ThemedText>
         <Slider
         minimumValue={0}
-        maximumValue={255}
+        maximumValue={65535}
         minimumTrackTintColor='red'
         maximumTrackTintColor='red'
         value={sliderRed}
         onValueChange={(value)=>setSliderRed(value)}
+        onSlidingComplete={(value)=>sendColor(1)}
         />
         <Slider
         minimumValue={0}
-        maximumValue={255}
+        maximumValue={65535}
         minimumTrackTintColor='green'
         maximumTrackTintColor='green'
         value={sliderGreen}
         onValueChange={(value)=>setSliderGreen(value)}
+        onSlidingComplete={(value)=>sendColor(2)}
         />
         <Slider
         minimumValue={0}
-        maximumValue={255}
+        maximumValue={65535}
         minimumTrackTintColor='blue'
         maximumTrackTintColor='blue'
         value={sliderBlue}
         onValueChange={(value)=>setSliderBlue(value)}
+        onSlidingComplete={(value)=>sendColor(3)}
         />
         <Pressable style={[styles.buttonSame, { backgroundColor: buttonColor }]}
         ></Pressable>
-
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -111,6 +188,14 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'cyan',
+  },
+  buttonM: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
   },
   buttonSame: {
     alignItems: 'center',
