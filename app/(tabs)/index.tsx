@@ -44,32 +44,13 @@ export default function HomeScreen() {
   const sendColor = async (op:number) => {
     switch(op) {
       case 1:
-        fetch(url+'/r/'+`${sliderRed.toFixed(0)}`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'},
-          body: JSON.stringify({color: sliderRed}),
-        });
+        fetch(url+'/r/'+`${sliderRed.toFixed(0)}`);
         break;
       case 2:
-        fetch(url+'/g/'+`${sliderGreen.toFixed(0)}`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'},
-          body: JSON.stringify({color: sliderRed}),
-        });
+        fetch(url+'/g/'+`${sliderGreen.toFixed(0)}`);
         break;
       case 3:
-        fetch(url+'/b/'+`${sliderBlue.toFixed(0)}`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            color: sliderRed}),
-        });
+        fetch(url+'/b/'+`${sliderBlue.toFixed(0)}`);
         break;
       default:
         console.log("Invalid type");
